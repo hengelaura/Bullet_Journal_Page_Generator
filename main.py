@@ -8,11 +8,13 @@ import itertools
 def left_page(pdf_in):
     pdf_in.set_margins(7, 7, 10.5)  # set left and top margins to 7mm, right margin to 10.5mm
     pdf_in.add_page()  # add new page to pdf
+    pdf_in.set_margins(7, 7, 10.5)  # set left and top margins to 7mm, right margin to 10.5mm
 
 
 def right_page(pdf_in):
     pdf_in.set_margins(10.5, 7, 7)  # set left margin to 10.5mm, top and right margins to 7mm
     pdf_in.add_page()  # add new page to pdf
+    pdf_in.set_margins(10.5, 7, 7)  # set left margin to 10.5mm, top and right margins to 7mm
 
 
 def title_page(pdf_in, title):
