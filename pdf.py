@@ -3,6 +3,7 @@
 from fpdf import FPDF
 import calendar
 import re
+import itertools
 
 class PdfCal:
     def __init__(self, page_size, year):
@@ -42,7 +43,7 @@ class PdfCal:
         annual_data = []
         for quarter in self.year_info:
             month_names = [calendar.month_name[i] for i in range(range_low, range_low + 3)]
-            annual_data.append([month_names, zip(quarter[0], quarter[1], quarter[2])])
+            annual_data.append([month_names, itertools.zip_longest(quarter[0], quarter[1], quarter[2], fillvalue=[0,0,0,0,0,0,0])])
             range_low += 3
         for quart in annual_data:
             for name in quart[0]:
@@ -59,6 +60,9 @@ class PdfCal:
                     self.pdf.cell(2*self.GRID_SIZE, self.GRID_SIZE, '')
                 self.pdf.ln()
             self.pdf.ln()
+
+    def monthly_spread(self):
+        pass
 
     def closePdf(self, name='tester.pdf'):
         self.pdf.output(name)
