@@ -61,8 +61,29 @@ class PdfCal:
                 self.pdf.ln()
             self.pdf.ln()
 
-    def monthly_spread(self):
-        pass
+    def monthly_spread(self, month_num):
+        month_name = calendar.month_name[month_num]
+        month = self.cal.monthdayscalendar(self.year, month_num)
+        left_month = [w[:4] if 0 not in w[:4] else [d if d!=0 else '' for d in w[:4]] for w in month]
+        right_month = [w[4:] if 0 not in w[4:] else [d if d!=0 else '' for d in w[4:]] for w in month]
+        # size of the day is 6 grids high, 6 grids wide
+        self.left_page()
+        self.pdf.set_font_size(9)
+        for w in left_month:
+            for d in w:
+                x = self.pdf.get_x() + (6*self.GRID_SIZE)
+                y = self.pdf.get_y()
+                self.pdf.multi_cell(6*self.GRID_SIZE, self.GRID_SIZE, str(d)+'\n\n\n\n\n\n', 1, 'R')
+                self.pdf.set_xy(x,y)
+            self.pdf.ln(6*self.GRID_SIZE)
+        self.right_page()
+        for w in right_month:
+            for d in w:
+                x = self.pdf.get_x() + (6*self.GRID_SIZE)
+                y = self.pdf.get_y()
+                self.pdf.multi_cell(6*self.GRID_SIZE, self.GRID_SIZE, str(d)+'\n\n\n\n\n\n', 1, 'R')
+                self.pdf.set_xy(x,y)
+            self.pdf.ln(6*self.GRID_SIZE)
 
     def closePdf(self, name='tester.pdf'):
         self.pdf.output(name)
