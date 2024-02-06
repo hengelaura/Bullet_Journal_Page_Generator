@@ -39,6 +39,7 @@ class PdfCal:
     def annual_calendar_page(self):
         self.pdf.set_font('Arial', '', 9)
         self.left_page()
+        self.set_background("uwu")
         range_low = 1
         annual_data = []
         for quarter in self.year_info:
@@ -69,6 +70,10 @@ class PdfCal:
         # size of the day is 6 grids high, 6 grids wide
         self.left_page()
         self.pdf.set_font_size(9)
+        calendar.setfirstweekday(calendar.SUNDAY)
+        for i in [6,0,1,2]:
+            self.pdf.cell(6*self.GRID_SIZE, self.GRID_SIZE, calendar.day_name[i], 1, 0, 'C')
+        self.pdf.ln()
         for w in left_month:
             for d in w:
                 x = self.pdf.get_x() + (6*self.GRID_SIZE)
@@ -77,6 +82,9 @@ class PdfCal:
                 self.pdf.set_xy(x,y)
             self.pdf.ln(6*self.GRID_SIZE)
         self.right_page()
+        for i in [3,4,5]:
+            self.pdf.cell(6*self.GRID_SIZE, self.GRID_SIZE, calendar.day_name[i], 1, 0, 'C')
+        self.pdf.ln()
         for w in right_month:
             for d in w:
                 x = self.pdf.get_x() + (6*self.GRID_SIZE)
@@ -84,6 +92,13 @@ class PdfCal:
                 self.pdf.multi_cell(6*self.GRID_SIZE, self.GRID_SIZE, str(d)+'\n\n\n\n\n\n', 1, 'R')
                 self.pdf.set_xy(x,y)
             self.pdf.ln(6*self.GRID_SIZE)
+
+    def set_background(self, image_path):
+        x = self.pdf.get_x()
+        y = self.pdf.get_y()
+        # self.pdf.set_xy(0,0)
+        self.pdf.image("C:\\Users\\henge\\PycharmProjects\\Bullet_Journal_Generator\\background1.jpg", 0, 0, w=150, h=210)
+        self.pdf.set_xy(x,y)
 
     def closePdf(self, name='tester.pdf'):
         self.pdf.output(name)
